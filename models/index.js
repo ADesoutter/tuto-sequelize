@@ -7,10 +7,15 @@
 // Récupérer la librairie de Sequelize
 const {Sequelize} = require('sequelize');
 
-const dotenv = require('dotenv');
+// SI cette propriété (générée automatiquement par Heroku)
+// n'existe pas, c'est que je suis en local
+// Et donc que j'aurai besoin d'importer et configurer dotenv
+if(!process.env.NODE_ENV) {
+    const dotenv = require('dotenv');
 
-// Transformer chaque variable dans .env en process.env.qqchose
-dotenv.config();
+    // Transformer chaque variable dans .env en process.env.qqchose
+    dotenv.config();    
+}
 
 const sequelize = new Sequelize(
     // Dans le cas de mariadb
