@@ -7,11 +7,16 @@
 // Récupérer la librairie de Sequelize
 const {Sequelize} = require('sequelize');
 
+const dotenv = require('dotenv');
+
+// Transformer chaque variable dans .env en process.env.qqchose
+dotenv.config();
+
 const sequelize = new Sequelize(
     // Dans le cas de mariadb
     // 'mariadb://notes_user:1poney2poneys3poneys@localhost/notes'
    // Dans le cas de mysql
-   'mysql://notes_user:1poney2poneys3poneys@localhost/notes'
+   process.env.DATABASE_URL
 )
 
 // Un modèle, c'est un objet JS qui est en lien avec une table de BDD
