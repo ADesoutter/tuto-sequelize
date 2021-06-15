@@ -9,7 +9,7 @@ const express = require('express');
 // Initialiser un serveur dans la variable app
 const app = express();
 // Crée une variable pour mon port
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 console.log('Checking Database connection...');
 
