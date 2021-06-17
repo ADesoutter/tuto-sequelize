@@ -24,6 +24,14 @@ app.get('/messages', (req, res) => {
     })
 })
 
+app.get('/messages/:id',(req, res) => {
+    const id = req.params.id;
+    sequelize.models.Message.findByPk(id)
+    .then(myMessage => {
+        res.send(myMessage);
+    })
+})
+
 // POST -> Méthode HTTP qu'on emploie par convention
 // pour envoyer des infos
 app.post('/messages', (req, res ) => {
@@ -34,14 +42,49 @@ app.post('/messages', (req, res ) => {
     .then(messageCreated => {
         res.send(messageCreated);
     })
+})
+
+// Modifier un élément (Update du CRUD)
+app.patch('/messages/:id', (req, res) => {
+    // Met à jour un élément dans une BDD
+    // Avec les infos envoyé en body de la requête
+    sequelize.models.Message.update(req.body, 
+        {where: {id : req.params.id} })
+    .then(successUpdated => {
+        res.send(successUpdated);
+    })
 
 })
 
-app.get('/messages/:id',(req, res) => {
+// Supprimer un élément (Delete du CRUD)
+app.delete('/messages/:id', (req, res) => {
+    // Supprimer un élément d'une BDD
+    sequelize.models.Message.destroy({
+        where:{id: req.params.id}
+    }).then(() => {
+        res.send({info: "Message deleted"})
+    })
+})
+
+app.post('/categories', (req, res) => {
+    sequelize.models.Category.create(req.body)
+    .then(categoryCreated => {
+        res.send(categoryCreated);
+    })
+})
+
+app.get('/categories', (req, res) => {
+    sequelize.models.Category.findAll()
+    .then(myCategories => {
+        res.send(myCategories)
+    })
+})
+
+app.get('/categories/:id', (req, res) => {
     const id = req.params.id;
-    sequelize.models.Message.findByPk(id)
-    .then(myMessage => {
-        res.send(myMessage);
+    sequelize.models.Category.findByPk(id)
+    .then(myCategory => {
+        res.send(myCategory)
     })
 })
 
