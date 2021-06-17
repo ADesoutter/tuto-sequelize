@@ -8,6 +8,10 @@ const sequelize = require("./models");
 const express = require('express');
 // Initialiser un serveur dans la variable app
 const app = express();
+
+// Je veux accepter du JSON en envoi d'informations
+app.use(express.json());
+
 // Crée une variable pour mon port
 const PORT = process.env.PORT || 5000;
 
@@ -17,6 +21,27 @@ app.get('/messages', (req, res) => {
     sequelize.models.Message.findAll()
     .then(myMessages => {
         res.send(myMessages);
+    })
+})
+
+// POST -> Méthode HTTP qu'on emploie par convention
+// pour envoyer des infos
+app.post('/messages', (req, res ) => {
+    // Recevoir ce qu'il y a dans le body 
+    // de la requête
+    console.log(req.body);
+    sequelize.models.Message.create(req.body)
+    .then(messageCreated => {
+        res.send(messageCreated);
+    })
+
+})
+
+app.get('/messages/:id',(req, res) => {
+    const id = req.params.id;
+    sequelize.models.Message.findByPk(id)
+    .then(myMessage => {
+        res.send(myMessage);
     })
 })
 
